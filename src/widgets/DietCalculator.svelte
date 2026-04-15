@@ -1,13 +1,24 @@
 <script>
   import { farmedAnimals, lifeDaysPerKg, products, presets, sliderMax } from '../data/farming.js';
 
-  let diet = $state({ ...presets.american.values });
-  let activePreset = $state('american');
+  let { copy = {} } = $props();
+  let diet = $state({ ...presets.european.values });
+  let activePreset = $state('european');
 
   function applyPreset(key) {
     diet = { ...presets[key].values };
     activePreset = key;
   }
+
+  // Compute a fixed max scale from the largest preset (American)
+  const maxLifeDays = Math.max(
+    ...Object.values(presets).map(p =>
+      products.reduce((sum, prod) => {
+        const kg = prod.toKg(p.values[prod.id]);
+        return sum + kg * lifeDaysPerKg[prod.animalId];
+      }, 0)
+    )
+  );
 
   let lifeDaysBreakdown = $derived(
     products.map(p => {
@@ -26,7 +37,8 @@
 </script>
 
 <div class="diet-calculator">
-  <h3 class="chart-title">Life-days in your diet</h3>
+  <h3 class="chart-title">Life-days in different diets</h3>
+  {#if copy.intro}<p class="chart-copy">{copy.intro}</p>{/if}
 
   <div class="diet-layout">
     <div class="diet-inputs">
@@ -62,13 +74,11 @@
     <div class="diet-output">
       <div class="stacked-bar">
         {#each lifeDaysBreakdown as segment}
-          {#if segment.days > 0}
-            <div
-              class="stacked-segment"
-              style="flex: {segment.days}; background: {segment.color}"
-              title="{segment.label}: {Math.round(segment.days).toLocaleString()} life-days"
-            ></div>
-          {/if}
+          <div
+            class="stacked-segment"
+            style="width: {(segment.days / maxLifeDays) * 100}%; background: {segment.color}"
+            title="{segment.label}: {Math.round(segment.days).toLocaleString()} life-days"
+          ></div>
         {/each}
       </div>
 
@@ -93,6 +103,13 @@
 </div>
 
 <style>
+  .chart-copy {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
   .chart-title {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 600;
@@ -112,13 +129,13 @@
 
   .preset-buttons {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 1.25rem;
   }
 
   .preset-btn {
-    padding: 0.35rem 0.75rem;
+    flex: 1;
+    padding: 0.35rem 0.5rem;
     border: 1px solid #333;
     border-radius: 4px;
     background: none;
@@ -189,8 +206,8 @@
   }
 
   .stacked-segment {
-    transition: flex 0.4s ease;
-    min-width: 2px;
+    transition: width 0.4s ease;
+    flex-shrink: 0;
   }
 
   .diet-legend {

@@ -1,9 +1,10 @@
 <script>
   import { animals, weightingModes } from '../data/animals.js';
+  import { shared } from '../stores.svelte.js';
 
-  let selectedMode = $state('linear-neurons');
+  let { copy = {} } = $props();
 
-  let mode = $derived(weightingModes.find(m => m.id === selectedMode));
+  let mode = $derived(weightingModes.find(m => m.id === shared.weightingMode));
 
   let visibleAnimals = $derived(animals.filter(a => a.id !== 'human'));
 
@@ -25,12 +26,12 @@
   <div class="controls">
     <div class="modes">
       {#each weightingModes as wm}
-        <label class="mode-option" class:selected={selectedMode === wm.id}>
+        <label class="mode-option" class:selected={shared.weightingMode === wm.id} class:recommended={wm.id === 'rp-welfare'}>
           <input
             type="radio"
             name="weighting-mode"
             value={wm.id}
-            bind:group={selectedMode}
+            bind:group={shared.weightingMode}
           />
           <span class="mode-title">
             <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -38,7 +39,7 @@
             </svg>
             {wm.title}
           </span>
-          {#if selectedMode === wm.id}
+          {#if shared.weightingMode === wm.id}
             <span class="mode-desc">{wm.description}</span>
           {/if}
         </label>
@@ -55,7 +56,7 @@
           {#if animal.uncertain}
             <span class="uncertain-flag" title="Neuron count extrapolated from zebrafish — highly uncertain">*</span>
           {/if}
-          {#if animal.rpIsProxy && selectedMode === 'rp-welfare'}
+          {#if animal.rpIsProxy && shared.weightingMode === 'rp-welfare'}
             <span class="proxy-flag" title="RP didn't study cows; using pig estimate as proxy">†</span>
           {/if}
         </span>
@@ -64,7 +65,7 @@
             <div
               class="bar-fill"
               class:uncertain={animal.uncertain}
-              class:proxy={animal.rpIsProxy && selectedMode === 'rp-welfare'}
+              class:proxy={animal.rpIsProxy && shared.weightingMode === 'rp-welfare'}
               style="width: {(animal.weight / maxWeight) * 100}%"
             ></div>
           {/if}
@@ -76,7 +77,7 @@
 
     <div class="chart-footnotes">
       <p class="footnote" class:hidden={!weights.some(a => a.uncertain)}>* Data highly uncertain</p>
-      <p class="footnote" class:hidden={!(selectedMode === 'rp-welfare' && weights.some(a => a.rpIsProxy))}>† Not directly studied by RP — using pig estimate as proxy</p>
+      <p class="footnote" class:hidden={!(shared.weightingMode === 'rp-welfare' && weights.some(a => a.rpIsProxy))}>† Not directly studied by RP — using pig estimate as proxy</p>
     </div>
   </div>
 </div>
@@ -113,6 +114,17 @@
   .mode-option.selected {
     border-color: #4d9fff;
     background: rgba(77, 159, 255, 0.08);
+  }
+
+  .mode-option.recommended {
+    border-width: 2px;
+    border-color: #6b5a2d;
+    background: linear-gradient(135deg, rgba(200, 170, 50, 0.06) 0%, transparent 60%);
+  }
+
+  .mode-option.recommended.selected {
+    border-color: #c8aa32;
+    background: linear-gradient(135deg, rgba(200, 170, 50, 0.12) 0%, transparent 60%);
   }
 
   .mode-option input {

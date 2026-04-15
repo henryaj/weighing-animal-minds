@@ -22,14 +22,19 @@ function contentPlugin() {
   function processMarkdown(md) {
     const { meta, body } = parseFrontmatter(md);
 
-    // Replace --- WIDGET: <description> --- blocks with mount-point divs
-    const widgetPattern = /---\s*WIDGET:\s*(.*?)(?:\n[\s\S]*?)---/g;
-    let widgetIndex = 0;
-    const widgetIds = ['pain-model', 'life-days', 'diet-calculator', 'suffering-days'];
+    // Replace {{widget:id ...}} blocks with mount-point divs and extract copy
+    const widgetPattern = /\{\{widget:([a-z-]+)(?:\n([\s\S]*?))?\}\}/g;
+    const widgetCopy = {};
 
-    const processed = body.replace(widgetPattern, (_match, _description) => {
-      const id = widgetIds[widgetIndex] || `widget-${widgetIndex}`;
-      widgetIndex++;
+    const processed = body.replace(widgetPattern, (_match, id, copyBlock) => {
+      if (copyBlock) {
+        const copy = {};
+        for (const line of copyBlock.trim().split('\n')) {
+          const i = line.indexOf(':');
+          if (i !== -1) copy[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+        }
+        widgetCopy[id] = copy;
+      }
       return `<div id="widget-${id}" class="widget-mount"></div>`;
     });
 
@@ -43,7 +48,7 @@ function contentPlugin() {
     };
 
     const html = marked(processed, { renderer, smartypants: true });
-    return { html, headings, meta };
+    return { html, headings, meta, widgetCopy };
   }
 
   return {
@@ -54,8 +59,8 @@ function contentPlugin() {
     load(id) {
       if (id === resolvedVirtualModuleId) {
         const md = fs.readFileSync(copyPath, 'utf-8');
-        const { html, headings, meta } = processMarkdown(md);
-        return `export const html = ${JSON.stringify(html)};\nexport const headings = ${JSON.stringify(headings)};\nexport const meta = ${JSON.stringify(meta)};`;
+        const { html, headings, meta, widgetCopy } = processMarkdown(md);
+        return `export const html = ${JSON.stringify(html)};\nexport const headings = ${JSON.stringify(headings)};\nexport const meta = ${JSON.stringify(meta)};\nexport const widgetCopy = ${JSON.stringify(widgetCopy)};`;
       }
     },
     handleHotUpdate({ file, server }) {

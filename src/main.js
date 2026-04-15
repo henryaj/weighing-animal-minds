@@ -1,5 +1,5 @@
 import { mount } from 'svelte';
-import { html as content, headings, meta } from 'virtual:content';
+import { html as content, headings, meta, widgetCopy } from 'virtual:content';
 import PainModel from './widgets/PainModel.svelte';
 import LifeDays from './widgets/LifeDays.svelte';
 import DietCalculator from './widgets/DietCalculator.svelte';
@@ -21,7 +21,7 @@ app.innerHTML = `
     <div class="hero-content">
       <h1>${meta.title}</h1>
       <div class="hero-meta">
-        <span class="hero-author">${meta.author}</span>
+        <a class="hero-author" href="https://henrystanley.com">${meta.author}</a>
       </div>
     </div>
   </div>
@@ -52,7 +52,9 @@ const widgets = {
 for (const [id, Component] of Object.entries(widgets)) {
   const target = document.getElementById(id);
   if (target) {
-    mount(Component, { target });
+    const copyKey = id.replace('widget-', '');
+    const copy = widgetCopy[copyKey] || {};
+    mount(Component, { target, props: { copy } });
   }
 }
 

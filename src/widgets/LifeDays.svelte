@@ -1,6 +1,7 @@
 <script>
   import { farmedAnimals } from '../data/farming.js';
 
+  let { copy = {} } = $props();
   let chartVisible = $state([false, false, false]);
   const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
@@ -22,18 +23,19 @@
     return { destroy: () => obs.disconnect() };
   }
 
-  const lifespanData = farmedAnimals.map(a => ({ name: a.name, value: a.lifespanDays, color: a.color }));
-  const edibleData = farmedAnimals.map(a => ({ name: a.name, value: a.edibleKg, color: a.color }));
+  const byValue = (a, b) => b.value - a.value;
+  const lifespanData = farmedAnimals.map(a => ({ name: a.name, value: a.lifespanDays, color: a.color })).sort(byValue);
+  const edibleData = farmedAnimals.map(a => ({ name: a.name, value: a.edibleKg, color: a.color })).sort(byValue);
   const lifeDaysData = farmedAnimals.map(a => ({
     name: a.name,
     value: a.lifespanDays / a.edibleKg,
     color: a.color,
-  }));
+  })).sort(byValue);
 
   const charts = [
-    { title: 'Average lifespan', unit: 'days', data: lifespanData, copy: '[COPY: how long each animal lives before slaughter]' },
-    { title: 'Edible food per animal', unit: 'kg', data: edibleData, clipMax: true, copy: '[COPY: how much food each animal produces in its lifetime]' },
-    { title: 'Life-days per kg', unit: 'days/kg', data: lifeDaysData, clipMax: true, copy: '[COPY: combining the two — how many days of life go into each kg of food]' },
+    { title: 'Average lifespan', unit: 'days', data: lifespanData, copy: copy.lifespan },
+    { title: 'Edible food per animal', unit: 'kg', data: edibleData, clipMax: true, copy: copy.edible },
+    { title: 'Life-days per kg', unit: 'days/kg', data: lifeDaysData, clipMax: true, copy: copy.lifedays },
   ];
 
   function chartMax(chart) {
@@ -60,7 +62,7 @@
       use:observeChart={i}
     >
       <h3 class="chart-title">{chart.title}</h3>
-      <p class="chart-copy">{chart.copy}</p>
+      {#if chart.copy}<p class="chart-copy">{chart.copy}</p>{/if}
       {#each chart.data as row}
         {@const max = chartMax(chart)}
         {@const pct = (row.value / max) * 100}
@@ -150,10 +152,11 @@
   }
 
   .bar-value {
-    flex: 0 0 80px;
+    flex: 0 0 110px;
     font-size: 0.75rem;
     color: #888;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   .bar-unit {

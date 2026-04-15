@@ -54,19 +54,7 @@ involved in this.
 Below, you can explore some different ways to think about how different animals
 might feel pain based on different assumptions.
 
---- WIDGET: different ways to model animal pain levels. a histogram, with a bar
-for each animal (ideally with an icon of each animal underneath, which the user
-can mouse over to see the animal's name).
-
-On the left, a set of radio buttons, each one with a title and text.
-
- - Brain mass - Animals feels pain in proportion to the mass of its brain.
- - Neuron count - Animals feel pain in proportion to the number of neurons.
- - equal, linear neurons, neurons², log neurons, cortical/pallial neurons only, RP welfare ranges
-
-(create each of these with placeholder text which i will update)
-
----
+{{widget:pain-model}}
 
 # Animals are different sizes
 
@@ -85,9 +73,15 @@ This means different diets can represent very different numbers of life-days.
 If you eat a lot of chicken, this number could be very large. If you only eat
 beef, it'll be much smaller.
 
---- WIDGET: life-days comparison charts ---
+{{widget:life-days
+  lifespan: Dairy cows live for six years on average. Chickens raised for meat live for just 42 days.
+  edible: Dairy cows produce a large amount of milk over their lifetime. Salmon, shrimp and chickens are small, so provide a tiny amount of food per animal.
+  lifedays: Combining the two, we see that shrimp, fish and eggs are by far the largest contributors to life-days.
+}}
 
---- WIDGET: diet calculator ---
+{{widget:diet-calculator
+  intro: Different diets translate to very different numbers of life-days per year. Brits and Europeans consume more fish than Americans, which translates into more life-days.
+}}
 
 This has some counterintuitive implications. Those aspiring to reduce suffering
 in their diets should cut out fish and eggs first -- per kg these cause by far
@@ -97,14 +91,7 @@ eliminating milk is the lowest-impact diet intervention.
 A more sophisticated model would include both _how much_ each animal can
 suffer, and _how many_ of them are in your diet.
 
---- WIDGET:
-
-suffering in your diet. same as the final chart in widget 2, but with the
-options for weighting on the left, before the diet numbers. now we have a
-suffering-days per kg - not just life-days, but now weighted by how much we
-think different animals are capable of suffering.
-
----
+{{widget:suffering-days}}
 
 This is one of the problems with a lot of reducetarian diets: they often eliminate red meat in favour of chicken. 
 
