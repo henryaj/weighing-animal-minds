@@ -9,7 +9,7 @@ The answers hinge on a number of assumptions. We're going to explore some of
 them here. You can build your intuition, and see what assumptions your beliefs
 hinge on.
 
-## Comparing animals' experiences
+# Comparing animals' experiences
 
 Different kinds of farmed animals are treated differently. They undergo
 different procedures, they're kept in different conditions, they live for
@@ -63,7 +63,7 @@ On the left, a set of radio buttons, each one with a title and text.
 
 ---
 
-## Animals are different sizes
+# Animals are different sizes
 
 Farmed animals are very different sizes -- shrimp are tiny, and you could
 consume a dozen in a single meal. Cows are very large; you might consume only a

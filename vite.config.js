@@ -10,7 +10,6 @@ function contentPlugin() {
 
   function processMarkdown(md) {
     // Replace --- WIDGET: <description> --- blocks with mount-point divs
-    // Match from "--- WIDGET:" to the next "---" on its own line
     const widgetPattern = /---\s*WIDGET:\s*(.*?)(?:\n[\s\S]*?)---/g;
     let widgetIndex = 0;
     const widgetIds = ['pain-model', 'life-days', 'suffering-days'];
@@ -21,7 +20,23 @@ function contentPlugin() {
       return `<div id="widget-${id}" class="widget-mount"></div>`;
     });
 
-    return marked(processed);
+    // Collect headings for TOC and add anchor IDs
+    const headings = [];
+    let isFirstH1 = true;
+    const renderer = new marked.Renderer();
+    renderer.heading = function ({ text, depth }) {
+      const slug = text.toLowerCase().replace(/[^\w]+/g, '-').replace(/(^-|-$)/g, '');
+      // First h1 is the page title (goes in hero, no anchor link)
+      if (depth === 1 && isFirstH1) {
+        isFirstH1 = false;
+        return `<h1>${text}</h1>`;
+      }
+      headings.push({ text, slug, depth });
+      return `<h${depth} id="${slug}"><a href="#${slug}">${text}</a></h${depth}>`;
+    };
+
+    const html = marked(processed, { renderer });
+    return { html, headings };
   }
 
   return {
@@ -32,8 +47,8 @@ function contentPlugin() {
     load(id) {
       if (id === resolvedVirtualModuleId) {
         const md = fs.readFileSync(copyPath, 'utf-8');
-        const html = processMarkdown(md);
-        return `export default ${JSON.stringify(html)};`;
+        const { html, headings } = processMarkdown(md);
+        return `export const html = ${JSON.stringify(html)};\nexport const headings = ${JSON.stringify(headings)};`;
       }
     },
     handleHotUpdate({ file, server }) {
