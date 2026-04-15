@@ -184,7 +184,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.prose p:first-of-type {
+.prose > p:first-of-type {
   font-size: 1.25rem;
   font-weight: 500;
   color: #fff;
@@ -214,6 +214,14 @@ body {
   border: 1px dashed #333;
   border-radius: 8px;
   background: #111;
+  width: calc(100% + 200px);
+  max-width: 90vw;
+}
+
+@media (max-width: 768px) {
+  .widget-mount {
+    width: 100%;
+  }
 }
 
 /* --- Mobile nav --- */
