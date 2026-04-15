@@ -1,4 +1,4 @@
-# Visualizing farm animal welfare (working title)
+# Animal welfare, visualized
 
 It's hard to have a clear understanding of the experience of different farmed
 animals. How much can they feel pain? How much 'suffering' goes into each
