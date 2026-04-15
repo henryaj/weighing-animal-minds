@@ -47,7 +47,7 @@ function contentPlugin() {
       return `<h${depth} id="${slug}"><a href="#${slug}">${text}</a></h${depth}>`;
     };
 
-    const html = marked(processed, { renderer, smartypants: true });
+    const html = marked(processed.replace(/ -- /g, ' \u2013 '), { renderer });
     return { html, headings, meta, widgetCopy };
   }
 

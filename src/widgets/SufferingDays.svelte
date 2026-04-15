@@ -1,38 +1,36 @@
 <script>
-  import { animals, weightingModes } from '../data/animals.js';
+  import { animals } from '../data/animals.js';
   import { farmedAnimals, lifeDaysPerKg, products, presets } from '../data/farming.js';
-  import { shared } from '../stores.svelte.js';
 
   let { copy = {} } = $props();
   let activePreset = $state('european');
 
-  let mode = $derived(weightingModes.find(m => m.id === shared.weightingMode));
+  // Use RP welfare ranges as the weighting
+  const rpWeight = Object.fromEntries(
+    animals.map(a => [a.id, a.rpWelfareRange])
+  );
 
   let breakdown = $derived(
     products.map(p => {
       const kg = p.toKg(presets[activePreset].values[p.id]);
       const lifeDays = kg * lifeDaysPerKg[p.animalId];
       const farmed = farmedAnimals.find(a => a.id === p.animalId);
-      const painAnimal = animals.find(a => a.id === farmed.painAnimalId);
-      const weight = mode.fn(painAnimal) ?? 0;
+      const weight = rpWeight[farmed.painAnimalId] ?? 0;
       const sufferingDays = lifeDays * weight;
       return { id: p.id, label: p.label, sufferingDays, color: farmed.color };
     })
   );
 
-  // Fixed scale: max across every preset × every weighting mode
+  // Fixed scale: max across all presets
   const maxSufferingDays = Math.max(
-    ...weightingModes.flatMap(wm =>
-      Object.keys(presets).map(key =>
-        products.reduce((sum, p) => {
-          const kg = p.toKg(presets[key].values[p.id]);
-          const lifeDays = kg * lifeDaysPerKg[p.animalId];
-          const farmed = farmedAnimals.find(a => a.id === p.animalId);
-          const painAnimal = animals.find(a => a.id === farmed.painAnimalId);
-          const weight = wm.fn(painAnimal) ?? 0;
-          return sum + lifeDays * weight;
-        }, 0)
-      )
+    ...Object.keys(presets).map(key =>
+      products.reduce((sum, p) => {
+        const kg = p.toKg(presets[key].values[p.id]);
+        const lifeDays = kg * lifeDaysPerKg[p.animalId];
+        const farmed = farmedAnimals.find(a => a.id === p.animalId);
+        const weight = rpWeight[farmed.painAnimalId] ?? 0;
+        return sum + lifeDays * weight;
+      }, 0)
     )
   );
 
@@ -50,17 +48,7 @@
 
 <div class="suffering-days">
   <h3 class="chart-title">Suffering-days in different diets</h3>
-
-  <div class="mode-buttons">
-    {#each weightingModes as wm}
-      <button
-        class="mode-btn"
-        class:active={shared.weightingMode === wm.id}
-        onclick={() => shared.weightingMode = wm.id}
-        class:recommended={wm.id === 'rp-welfare'}
-      ><svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d={wm.icon} /></svg>{wm.title}</button>
-    {/each}
-  </div>
+  <p class="chart-note">Weighted using Rethink Priorities welfare range estimates.</p>
 
   <div class="preset-buttons">
     {#each Object.entries(presets) as [key, preset]}
@@ -109,52 +97,10 @@
     margin-bottom: 0.75rem;
   }
 
-  .mode-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+  .chart-note {
+    font-size: 0.8rem;
+    color: #888;
     margin-bottom: 1rem;
-  }
-
-  .mode-btn {
-    padding: 0.35rem 0.65rem;
-    border: 1px solid #333;
-    border-radius: 4px;
-    background: none;
-    color: #aaa;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-  }
-
-  .mode-icon {
-    width: 14px;
-    height: 14px;
-    vertical-align: -2px;
-    margin-right: 0.2rem;
-  }
-
-  .mode-btn:hover {
-    border-color: #555;
-    color: #fff;
-  }
-
-  .mode-btn.active {
-    border-color: #4d9fff;
-    color: #fff;
-    background: rgba(77, 159, 255, 0.1);
-  }
-
-  .mode-btn.recommended {
-    border-width: 2px;
-    border-color: #6b5a2d;
-    background: linear-gradient(135deg, rgba(200, 170, 50, 0.06) 0%, transparent 60%);
-  }
-
-  .mode-btn.recommended.active {
-    border-color: #c8aa32;
-    background: linear-gradient(135deg, rgba(200, 170, 50, 0.12) 0%, transparent 60%);
-    color: #fff;
   }
 
   .preset-buttons {

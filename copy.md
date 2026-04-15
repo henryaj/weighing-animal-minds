@@ -14,7 +14,7 @@ The answers hinge on a number of assumptions. We're going to explore some of
 them here. You can build your intuition, and see what assumptions your beliefs
 hinge on.
 
-# Comparing animals' experiences
+# How much can animals suffer?
 
 Different kinds of farmed animals are treated differently. They undergo
 different procedures, they're kept in different conditions, they live for
@@ -41,8 +41,8 @@ the amount they suffer the same amount of pain would be proportionally smaller.
 
 One issue is that the mass of a brain doesn't necessarily correlate to the
 number of neurons, the basic machinery of the brain. A more sophisticated
-metric would be neuron count - twice as many neurons implies twice as much
-pain.
+metric would be neuron count -- twice as many neurons implies double the
+ability to feel pain.
 
 This, too, is thorny: the parts of the brain that respond to pain are a small
 proportion of the brain's overall mass. These parts of the brain are highly
@@ -56,7 +56,7 @@ might feel pain based on different assumptions.
 
 {{widget:pain-model}}
 
-# Animals are different sizes
+# Not all animals are equal
 
 Farmed animals are very different sizes -- shrimp are tiny, and you could
 consume a dozen in a single meal. Cows are very large; you might consume only a
@@ -79,14 +79,24 @@ beef, it'll be much smaller.
   lifedays: Combining the two, we see that shrimp, fish and eggs are by far the largest contributors to life-days.
 }}
 
+# What's in a diet?
+
+Eating a different diet will mean eating different animals. If some animals are smaller and live less long than others, what does that mean for how many animal life-days go into our diets?
+
+Because some animals are so small, and each one makes a very slight contribution to our diets, most life-days are accounted for by smaller animals like shrimp, fish and chicken. The average American, European and British diets differ in their composition, which means different numbers of life-days for each.
+
 {{widget:diet-calculator
   intro: Different diets translate to very different numbers of life-days per year. Brits and Europeans consume more fish than Americans, which translates into more life-days.
 }}
 
-This has some counterintuitive implications. Those aspiring to reduce suffering
-in their diets should cut out fish and eggs first -- per kg these cause by far
-the most amount of suffering. Cutting out beef should be done second last;
+The numbers here are surprising – because fish and chickens are so small, they make up almost all of the life-days in our diets. Cows make up a much smaller amount, and dairy almost none.
+
+This has some counterintuitive implications. Those aspiring to reduce their
+animal consumption should cut out fish and eggs first -- per kg these cause by
+far the most amount of suffering. Cutting out beef should be done second last;
 eliminating milk is the lowest-impact diet intervention.
+
+# Putting it together
 
 A more sophisticated model would include both _how much_ each animal can
 suffer, and _how many_ of them are in your diet.
@@ -121,7 +131,8 @@ suffer.
 
 ---
 
-If this changed your mind about animal welfare, consider donating to effective
-organisations which seek to reform the way we raise animals for food, pay for
-'offsets' to cover the animals you consume, and consider changing your diet to
-reduce the amount of suffering it causes.
+If this changed your mind about animal welfare, consider [donating to effective
+organisations](https://animalcharityevaluators.org/) which seek to reform the
+way we raise animals for food, [pay for
+'offsets'](https://www.farmkind.giving/) to cover the animals you consume, and
+consider changing your diet to reduce the amount of suffering it causes.
