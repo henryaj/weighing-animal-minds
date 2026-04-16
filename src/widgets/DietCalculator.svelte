@@ -261,6 +261,12 @@
     color: #fff;
   }
 
+  @media (max-width: 1024px) {
+    .diet-inputs {
+      flex: 0 0 260px;
+    }
+  }
+
   @media (max-width: 768px) {
     .diet-layout {
       flex-direction: column;

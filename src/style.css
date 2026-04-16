@@ -136,6 +136,12 @@ body {
   color: #fff;
 }
 
+@media (max-width: 1024px) {
+  .toc {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-content {
     padding-left: 1rem;
@@ -143,9 +149,6 @@ body {
   .layout {
     flex-direction: column;
     padding: 0;
-  }
-  .toc {
-    display: none;
   }
   .prose {
     padding-left: 1rem;
@@ -217,6 +220,12 @@ body {
   background: #111;
   width: calc(100% + 200px);
   max-width: 90vw;
+}
+
+@media (max-width: 1024px) {
+  .widget-mount {
+    width: calc(100% + 100px);
+  }
 }
 
 @media (max-width: 768px) {

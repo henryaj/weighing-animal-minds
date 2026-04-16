@@ -163,6 +163,16 @@
     color: #555;
   }
 
+  @media (max-width: 1024px) {
+    .bar-label {
+      flex: 0 0 85px;
+    }
+
+    .bar-value {
+      flex: 0 0 90px;
+    }
+  }
+
   @media (max-width: 768px) {
     .bar-label {
       flex: 0 0 85px;
