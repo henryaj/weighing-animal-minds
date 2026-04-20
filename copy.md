@@ -33,6 +33,8 @@ chicken feels when it's being debeaked against a lamb being castrated?
 
 There are a few ways to tackle some of these questions.
 
+# Comparing animal brains
+
 Brain size is one proxy we can use to compare different animals' experiences.
 If we assume that chickens and cows feel pain, we can use a few metrics to try
 to establish how similar their experiences are.
@@ -81,8 +83,8 @@ attempt to quantify different animals' moral weights.
   brain-mass: Implies double the brain size, double the amount of pain felt. But doesn't consider how many neurons are in the brain, or whether the extra parts of the brain in higher mammals are involved in feeling pain.
   linear-neurons: Twice as many neurons means twice as much potential suffering. More plausible than brain mass, but assumes that all neurons are involved in feeling pain. This would for example mean that cows suffer only 3% as much as humans for the same experience.
   cortical-neurons: Only the cortex (or its equivalent) matters for suffering. Fish and shrimp have no cortex, so they get no weight, although we know they respond to painful stimuli and learn to avoid them over time.
-  neurons-squared: Pain capacity scales with the square of neuron count. A steep discount that makes small-brained animals nearly negligible, ignoring their ability to learn from pain to avoid it.
-  log-neurons: Pain capacity scales with the logarithm of neuron count. This gives a flatter curve that gives smaller-brained animals more moral weight. Plausible given the 
+  neurons-squared: Pain capacity scales with the square of neuron count. A steep discount that makes small-brained animals nearly negligible.
+  log-neurons: Pain capacity scales with the logarithm of neuron count. This gives a flatter curve that gives smaller-brained animals more moral weight. Plausible given that the brain structures involved in responding to pain represent a small amount of the total number of neurons.
   rp-welfare: Estimates from the Rethink Priorities Moral Weight Project, which combines neurophysiological and behavioural evidence into a weight for each animal.
 }}
 
