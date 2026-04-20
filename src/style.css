@@ -71,7 +71,7 @@ body {
   line-height: 1.6;
   color: var(--text);
   background:
-    radial-gradient(circle, var(--grid-dot) 1.5px, transparent 1.5px) 0 0 / 24px 24px,
+    radial-gradient(circle, var(--grid-dot) 1.25px, transparent 1.25px) 0 0 / 24px 24px,
     var(--bg);
 }
 
