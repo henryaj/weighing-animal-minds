@@ -18,7 +18,7 @@
   --accent-bg: rgba(37, 99, 235, 0.08);
   --accent-bg-subtle: rgba(37, 99, 235, 0.04);
   --accent-bg-strong: rgba(37, 99, 235, 0.6);
-  --grid-dot: rgba(0, 0, 0, 0.06);
+  --grid-dot: rgba(0, 0, 0, 0.09);
   --bg-translucent: rgba(247, 247, 247, 0.93);
   --flag: #b8860b;
   --recommended-border: #d4a843;
@@ -71,7 +71,7 @@ body {
   line-height: 1.6;
   color: var(--text);
   background:
-    radial-gradient(circle, var(--grid-dot) 1px, transparent 1px) 0 0 / 24px 24px,
+    radial-gradient(circle, var(--grid-dot) 1.5px, transparent 1.5px) 0 0 / 24px 24px,
     var(--bg);
 }
 

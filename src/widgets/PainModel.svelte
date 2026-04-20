@@ -23,13 +23,11 @@
 
   let mode = $derived(weightingModes.find(m => m.id === shared.weightingMode));
 
-  let visibleAnimals = $derived(animals.filter(a => a.id !== 'human'));
-
   let weights = $derived(
-    visibleAnimals.map(a => ({ ...a, weight: mode.fn(a) }))
+    animals.map(a => ({ ...a, weight: mode.fn(a) }))
   );
 
-  let maxWeight = $derived(Math.max(...weights.map(w => w.weight ?? 0)));
+  let maxWeight = 1;
 
   function formatWeight(w) {
     if (w == null) return 'N/A';
